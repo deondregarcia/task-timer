@@ -7,8 +7,6 @@ const Stopwatch = ({ item }) => {
   const [intervalID, setIntervalID] = useState(null);
   const [timerState, setTimerState] = useState(true);
 
-  console.log(item);
-
   const startTimer = () => {
     // if a timer already exists, clear first
     if (intervalID) clearInterval(intervalID);
@@ -20,18 +18,29 @@ const Stopwatch = ({ item }) => {
         setTimer((prevTimer) => prevTimer + 1); // have to use this notation instead of timer + 1
       }, 1000)
     );
-    console.log("intervalID in start" + intervalID);
   };
 
   const stopTimer = () => {
-    console.log("intervalID in stop" + intervalID);
     clearInterval(intervalID);
     setTimerState(true);
   };
+
+  // func to convert seconds count to HH:MM:SS format
+  // Number.prototype.toHHMMSS = function(timer) {
+  //   var seconds = timer
+  // }
+
+  const convertTime = (time) => {
+    var date = new Date(0);
+    date.setSeconds(time);
+    var timeString = date.toISOString().substr(11, 8);
+    return timeString;
+  };
+
   return (
     <View style={styles.container}>
       <Text>Name: {item.item.name}</Text>
-      <Text style={styles.timer}>{timer}</Text>
+      <Text style={styles.timer}>{convertTime(timer)}</Text>
       {timerState == true ? (
         <Button title="Start" onPress={startTimer} />
       ) : (

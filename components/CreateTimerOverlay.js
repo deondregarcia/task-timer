@@ -1,4 +1,11 @@
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
 
 // functional component for the overlay to create a timer
@@ -20,12 +27,17 @@ const CreateTimerOverlay = ({
           style={styles.textInput}
         />
         <Button
-          title="Enter"
+          title="Create"
           onPress={() =>
             setTimerNameArray([...timerNameArray, { name: inputText }])
           }
         />
-        <Button title="X" onPress={() => setTimerOverlayState(false)} />
+        <TouchableOpacity
+          onPress={() => setTimerOverlayState(false)}
+          style={styles.exitButton}
+        >
+          <Text style={{ fontSize: 30 }}>X</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -40,12 +52,15 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   mainContainer: {
+    paddingTop: 20,
     backgroundColor: "white",
     height: 150,
     width: "100%",
   },
   header: {
     alignSelf: "center",
+    marginBottom: 20,
+    fontSize: 20,
   },
   textInput: {
     width: "90%",
@@ -53,6 +68,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 10,
+  },
+  exitButton: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
 });
 export default CreateTimerOverlay;
