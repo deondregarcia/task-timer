@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 // NOTE: when referencing item, must use item.item, e.g. item.item.name
@@ -25,11 +25,7 @@ const Stopwatch = ({ item }) => {
     setTimerState(true);
   };
 
-  // func to convert seconds count to HH:MM:SS format
-  // Number.prototype.toHHMMSS = function(timer) {
-  //   var seconds = timer
-  // }
-
+  // convert seconds to HH:MM:SS format
   const convertTime = (time) => {
     var date = new Date(0);
     date.setSeconds(time);
@@ -41,10 +37,16 @@ const Stopwatch = ({ item }) => {
     <View style={styles.container}>
       <Text>Name: {item.item.name}</Text>
       <Text style={styles.timer}>{convertTime(timer)}</Text>
+
+      {/* conditional render of start or stop */}
       {timerState == true ? (
-        <Button title="Start" onPress={startTimer} />
+        <TouchableOpacity onPress={startTimer} style={styles.startStopButtons}>
+          <Text>Start</Text>
+        </TouchableOpacity>
       ) : (
-        <Button title="Stop" onPress={stopTimer} />
+        <TouchableOpacity onPress={stopTimer} style={styles.startStopButtons}>
+          <Text>Pause</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -52,10 +54,16 @@ const Stopwatch = ({ item }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F1F1E8",
+    backgroundColor: "#E2DFD9",
     height: 200,
   },
   timer: {
+    alignSelf: "center",
+  },
+  startStopButtons: {
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 3,
     alignSelf: "center",
   },
 });

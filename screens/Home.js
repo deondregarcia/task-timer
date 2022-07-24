@@ -2,9 +2,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   FlatList,
-  TextInput,
+  TouchableOpacity,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
@@ -14,6 +13,11 @@ import CreateTimerOverlay from "../components/CreateTimerOverlay";
 const Home = () => {
   const [timerNameArray, setTimerNameArray] = useState([]);
   const [timerOverlayState, setTimerOverlayState] = useState(false);
+
+  // delete all timers on screen
+  const handleClearAll = () => {
+    setTimerNameArray([]);
+  };
 
   return (
     <View style={styles.container}>
@@ -26,11 +30,18 @@ const Home = () => {
         />
       )}
 
-      <Button
-        title="Create New Timer"
-        onPress={() => setTimerOverlayState(true)}
-      />
-      <Button title="console log" onPress={() => console.log(timerNameArray)} />
+      <View style={styles.buttonView}>
+        <TouchableOpacity
+          onPress={() => setTimerOverlayState(true)}
+          style={styles.button}
+        >
+          <Text>New Timer</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleClearAll} style={styles.button}>
+          <Text>Clear All</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Render flatlist of stopwatches */}
       <FlatList
@@ -47,6 +58,17 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  buttonView: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  button: {
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
   },
 });
 
