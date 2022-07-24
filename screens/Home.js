@@ -33,13 +33,13 @@ const Home = () => {
       <View style={styles.buttonView}>
         <TouchableOpacity
           onPress={() => setTimerOverlayState(true)}
-          style={styles.button}
+          style={styles.buttons}
         >
-          <Text>New Timer</Text>
+          <Text style={styles.buttonText}>New Timer</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleClearAll} style={styles.button}>
-          <Text>Clear All</Text>
+        <TouchableOpacity onPress={handleClearAll} style={styles.buttons}>
+          <Text style={styles.buttonText}>Clear All</Text>
         </TouchableOpacity>
       </View>
 
@@ -66,10 +66,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginTop: 10,
   },
-  button: {
-    borderWidth: 1,
+  buttons: {
     borderRadius: 5,
     padding: 5,
+  },
+  buttonText: {
+    fontSize: 25,
   },
 });
 
