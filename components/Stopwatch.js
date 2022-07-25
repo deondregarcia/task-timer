@@ -35,7 +35,7 @@ const Stopwatch = ({ item }) => {
     return timeString;
   };
 
-  // function to store timer info and then clear off screen
+  // store timer info and then clear off screen
   const handleSave = () => {
     if (intervalID) clearInterval(intervalID);
 
@@ -43,10 +43,11 @@ const Stopwatch = ({ item }) => {
     (async () => {
       console.log("anon func ran");
       try {
-        const jsonValue = JSON.stringify(
-          { name: item.item.name },
-          { timer: timer }
-        );
+        const jsonValue = JSON.stringify({
+          name: item.item.name,
+          timer: timer,
+          key: key,
+        });
         await AsyncStorage.setItem(`${key}`, jsonValue);
       } catch (error) {
         console.log(error);
@@ -78,7 +79,7 @@ const Stopwatch = ({ item }) => {
 
   // useEffect to initialize key once
   useEffect(() => {
-    generateKey();
+    if (!key) generateKey();
   }, []);
 
   return (
