@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // NOTE: when referencing item, must use item.item, e.g. item.item.name
 const Stopwatch = ({ item }) => {
   const [timer, setTimer] = useState(0);
   const [intervalID, setIntervalID] = useState(null);
   const [timerState, setTimerState] = useState(true);
+  const [key, setKey] = useState(null); // key state management
 
   const startTimer = () => {
     // if a timer already exists, clear first
@@ -33,11 +35,58 @@ const Stopwatch = ({ item }) => {
     return timeString;
   };
 
+  // function to store timer info and then clear off screen
+  const handleSave = () => {
+    if (intervalID) clearInterval(intervalID);
+
+    // store data in AyncStorage through arrow func IIFE
+    (async () => {
+      console.log("anon func ran");
+      try {
+        const jsonValue = JSON.stringify(
+          { name: item.item.name },
+          { timer: timer }
+        );
+        await AsyncStorage.setItem(`${key}`, jsonValue);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
+  const generateKey = async () => {
+    // get array of all stored keys
+    let allKeys = [];
+    try {
+      allKeys = await AsyncStorage.getAllKeys();
+    } catch (error) {
+      console.log(error);
+    }
+
+    // generate number from 0 to 99
+    let timerKey = Math.floor(Math.random() * 100);
+    // set state variable 'key' as timerKey if timerKey value not already stored
+    if (!(timerKey in allKeys)) {
+      setKey(timerKey);
+    } else {
+      while (timerKey in allKeys) {
+        timerKey = Math.floor(Math.random() * 100);
+      }
+      setKey(timerKey);
+    }
+  };
+
+  // useEffect to initialize key once
+  useEffect(() => {
+    generateKey();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{item.item.name}</Text>
       <Text style={styles.timer}>{convertTime(timer)}</Text>
       <Text style={styles.text}>Goal: (hard code rn) </Text>
+      {/* <Text>{item.item.id}</Text> */}
 
       <View style={styles.buttonView}>
         {/* conditional render of start or stop */}
@@ -58,9 +107,10 @@ const Stopwatch = ({ item }) => {
         )}
 
         <TouchableOpacity
-          style={[styles.buttons, { backgroundColor: "#dc2f02" }]}
+          onPress={handleSave}
+          style={[styles.buttons, { backgroundColor: "lightblue" }]}
         >
-          <Text style={styles.buttonText}>End</Text>
+          <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </View>
     </View>
