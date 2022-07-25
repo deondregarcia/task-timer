@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   exitButton: {
     position: "absolute",
-    left: 0,
+    right: 0,
     top: 0,
     paddingVertical: 10,
     paddingHorizontal: 15,

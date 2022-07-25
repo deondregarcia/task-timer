@@ -1,9 +1,16 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+  Touchable,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // NOTE: when referencing item, must use item.item, e.g. item.item.name
-const Stopwatch = ({ item }) => {
+const Stopwatch = ({ item, setTimerNameArray }) => {
   const [timer, setTimer] = useState(0);
   const [intervalID, setIntervalID] = useState(null);
   const [timerState, setTimerState] = useState(true);
@@ -54,6 +61,15 @@ const Stopwatch = ({ item }) => {
     })();
   };
 
+  // update timerNameArray to filter out deleted timer
+  const handleDelete = () => {
+    setTimerNameArray((array) =>
+      array.filter((timer) => {
+        return timer.name !== item.item.name;
+      })
+    );
+  };
+
   const generateKey = async () => {
     // get array of all stored keys
     let allKeys = [];
@@ -86,7 +102,6 @@ const Stopwatch = ({ item }) => {
       <Text style={styles.header}>{item.item.name}</Text>
       <Text style={styles.timer}>{convertTime(timer)}</Text>
       <Text style={styles.text}>Goal: (hard code rn) </Text>
-      {/* <Text>{item.item.id}</Text> */}
 
       <View style={styles.buttonView}>
         {/* conditional render of start or stop */}
@@ -113,6 +128,11 @@ const Stopwatch = ({ item }) => {
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </View>
+
+      {/* exit button */}
+      <TouchableOpacity onPress={handleDelete} style={styles.exitButton}>
+        <Text>Delete</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -160,6 +180,13 @@ const styles = StyleSheet.create({
   text: {
     alignSelf: "center",
     fontSize: 15,
+  },
+  exitButton: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    marginTop: 10,
+    marginRight: 20,
   },
 });
 

@@ -46,7 +46,13 @@ const Home = () => {
       {/* Render flatlist of stopwatches */}
       <FlatList
         data={timerNameArray}
-        renderItem={(item) => <Stopwatch item={item} />}
+        renderItem={(item) => (
+          <Stopwatch
+            item={item}
+            timerNameArray={timerNameArray}
+            setTimerNameArray={setTimerNameArray}
+          />
+        )}
       />
 
       {/* configure statusbar look for expo */}
