@@ -41,7 +41,6 @@ const Stopwatch = ({ item }) => {
 
     // store data in AyncStorage through arrow func IIFE
     (async () => {
-      console.log("anon func ran");
       try {
         const jsonValue = JSON.stringify({
           name: item.item.name,

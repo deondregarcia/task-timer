@@ -8,9 +8,11 @@ import {
 import React, { useEffect, useState } from "react";
 import HistoryStopwatch from "../components/HistoryStopwatch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 const History = () => {
   const [timerArray, setTimerArray] = useState([]);
+  const isFocused = useIsFocused();
 
   // function for getting timers
   const getStopwatches = async () => {
@@ -26,23 +28,24 @@ const History = () => {
       console.log(error);
     }
 
+    console.log(timerArray);
     setTimerArray(keyValues);
   };
 
   // clear AsyncStorage of all key-value pairs
   const clearHistory = async () => {
-    setTimerArray([]);
     try {
       await AsyncStorage.clear();
     } catch (error) {
       console.log(error);
     }
+    setTimerArray([]);
   };
 
   useEffect(() => {
     // init stopwatch array
     getStopwatches();
-  });
+  }, [isFocused]);
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={clearHistory}>
