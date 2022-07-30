@@ -16,10 +16,18 @@ const History = () => {
 
   // function for getting timers
   const getStopwatches = async () => {
-    let keys = [];
+    let unfilteredKeys = [];
     let keyValues = [];
     try {
-      keys = await AsyncStorage.getAllKeys();
+      unfilteredKeys = await AsyncStorage.getAllKeys();
+      // filter out non-timer key-value pairs (others are group pairs)
+      let keys = unfilteredKeys.filter((key) => {
+        if (key.includes("timer")) {
+          console.log(key);
+          return key;
+        }
+      });
+      console.log(keys);
       let values = await AsyncStorage.multiGet(keys);
       for (let i = 0; i < values.length; i++) {
         keyValues.push(JSON.parse(values[i][1]));
@@ -28,7 +36,7 @@ const History = () => {
       console.log(error);
     }
 
-    console.log(timerArray);
+    // console.log(timerArray);
     setTimerArray(keyValues);
   };
 
@@ -77,64 +85,3 @@ const styles = StyleSheet.create({
 });
 
 export default History;
-
-// ----------- DELETE AFTER TRANSFER ---------------------
-
-// const displayKeys = async () => {
-//   let keys = [];
-//   try {
-//     keys = await AsyncStorage.getAllKeys();
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   console.log(keys);
-// };
-
-// const deleteAllKeys = async () => {
-//   try {
-//     await AsyncStorage.clear();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// const getAllItems = async () => {
-//   let keys = [];
-//   let keyValues = [];
-//   try {
-//     keys = await AsyncStorage.getAllKeys();
-//     // console.log(keys);
-//     let values = await AsyncStorage.multiGet(keys);
-//     // console.log(values[0][1]);
-//     for (let i = 0; i < values.length; i++) {
-//       keyValues.push(JSON.parse(values[i][1]));
-//     }
-//     console.log(keyValues);
-//     // console.log(testVal);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// const getOneValue = async () => {
-//   try {
-//     const key = await AsyncStorage.getItem("24");
-//     const testVal = JSON.parse(key);
-//     console.log(testVal);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// const History = () => {
-//   return (
-//     <View>
-//       <Button title="console log all keys" onPress={displayKeys} />
-//       <Button title="delete all keys" onPress={deleteAllKeys} />
-//       <Button title="get one value" onPress={getOneValue} />
-//       <Button title="display key values" onPress={getAllItems} />
-//     </View>
-//   );
-// };
-
-// export default History;

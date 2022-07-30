@@ -85,13 +85,15 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
     // generate number from 0 to 99
     let timerKey = Math.floor(Math.random() * 100);
     // set state variable 'key' as timerKey if timerKey value not already stored
-    if (!(timerKey in allKeys)) {
-      setKey(timerKey);
+    if (!("timer" + timerKey in allKeys)) {
+      // pre-pend "timer" to differentiate timer key-value pairs from group pairs
+      setKey("timer" + timerKey);
     } else {
       while (timerKey in allKeys) {
         timerKey = Math.floor(Math.random() * 100);
       }
-      setKey(timerKey);
+      // pre-pend "timer" to differentiate timer key-value pairs from group pairs
+      setKey("timer" + timerKey);
     }
   };
 
