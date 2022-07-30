@@ -15,6 +15,7 @@ const CreateTimerOverlay = ({
   setTimerOverlayState,
 }) => {
   const [inputText, setInputText] = useState("");
+  const [goal, setGoal] = useState("");
 
   // update timerNameArray and close overlay
   const handleCreate = () => {
@@ -22,7 +23,11 @@ const CreateTimerOverlay = ({
       alert("Please enter a name");
       return;
     }
-    setTimerNameArray([...timerNameArray, { name: inputText }]);
+    if (!goal) {
+      alert("Please enter a goal");
+      return;
+    }
+    setTimerNameArray([...timerNameArray, { name: inputText, goal: goal }]);
     setTimerOverlayState(false);
   };
 
@@ -35,6 +40,11 @@ const CreateTimerOverlay = ({
           placeholder="Enter Name"
           onChangeText={(text) => setInputText(text)}
           style={styles.textInput}
+        />
+        <TextInput
+          placeholder='Enter a goal (e.g. "30 minutes")'
+          onChangeText={(text) => setGoal(text)}
+          style={[styles.textInput, { marginTop: 15 }]}
         />
 
         <TouchableOpacity onPress={handleCreate} style={styles.createButton}>
@@ -62,8 +72,9 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     paddingTop: 20,
+    paddingBottom: 20,
     backgroundColor: "white",
-    height: 150,
+    height: "auto",
     width: "100%",
   },
   header: {
@@ -89,8 +100,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderWidth: 1,
     borderRadius: 5,
-    marginTop: 10,
-    padding: 5,
+    marginTop: 15,
+    padding: 10,
   },
 });
 export default CreateTimerOverlay;

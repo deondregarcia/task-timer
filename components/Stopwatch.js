@@ -51,6 +51,7 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
       try {
         const jsonValue = JSON.stringify({
           name: item.item.name,
+          goal: item.item.goal,
           timer: timer,
           key: key,
         });
@@ -59,6 +60,8 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
         console.log(error);
       }
     })();
+
+    handleDelete();
   };
 
   // update timerNameArray to filter out deleted timer
@@ -101,7 +104,7 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
     <View style={styles.container}>
       <Text style={styles.header}>{item.item.name}</Text>
       <Text style={styles.timer}>{convertTime(timer)}</Text>
-      <Text style={styles.text}>Goal: (hard code rn) </Text>
+      <Text style={styles.text}>Goal: {item.item.goal} </Text>
 
       <View style={styles.buttonView}>
         {/* conditional render of start or stop */}
@@ -140,10 +143,11 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#E3E3E3",
-    height: 200,
+    height: "auto",
     marginHorizontal: 10,
     marginTop: 15,
     borderRadius: 20,
+    paddingVertical: 20,
 
     // shadow props are different for ios and android
     // android
@@ -169,13 +173,17 @@ const styles = StyleSheet.create({
   },
   buttons: {
     borderRadius: "50%",
-    paddingVertical: 10,
-    paddingHorizontal: 35,
+    // paddingVertical: 10,
+    // paddingHorizontal: 35,
+    height: 50,
+    width: 120,
     alignSelf: "center",
     marginHorizontal: 20,
+    justifyContent: "center",
   },
   buttonText: {
     fontSize: 30,
+    textAlign: "center",
   },
   text: {
     alignSelf: "center",

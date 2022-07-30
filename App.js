@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 // screen imports
 import Home from "./screens/Home";
 import History from "./screens/History";
-import Charts from "./screens/Charts";
+import Stats from "./screens/Stats";
 
 // react navigation imports
 import { NavigationContainer } from "@react-navigation/native";
@@ -19,7 +19,7 @@ const TabNavigator = () => {
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen name="History" component={History} />
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Charts" component={Charts} />
+      <Tab.Screen name="Stats" component={Stats} />
     </Tab.Navigator>
   );
 };

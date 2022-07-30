@@ -48,8 +48,8 @@ const History = () => {
   }, [isFocused]);
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={clearHistory}>
-        <Text>Clear History</Text>
+      <TouchableOpacity onPress={clearHistory} style={styles.button}>
+        <Text style={styles.buttonText}>Clear History</Text>
       </TouchableOpacity>
       {timerArray && (
         <FlatList
@@ -64,6 +64,15 @@ const History = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  button: {
+    borderRadius: 5,
+    padding: 5,
+    marginTop: 10,
+  },
+  buttonText: {
+    fontSize: 25,
+    textAlign: "center",
   },
 });
 

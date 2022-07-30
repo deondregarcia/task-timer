@@ -24,7 +24,7 @@ const HistoryStopwatch = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#E3E3E3",
-    height: 200,
+    height: "auto",
     marginHorizontal: 10,
     marginTop: 15,
     borderRadius: 20,
