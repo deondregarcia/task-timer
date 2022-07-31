@@ -144,7 +144,7 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#E3E3E3",
+    backgroundColor: "#f6bd60",
     height: "auto",
     marginHorizontal: 10,
     marginTop: 15,

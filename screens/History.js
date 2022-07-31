@@ -107,9 +107,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
+    alignSelf: "center",
     borderRadius: 5,
-    padding: 5,
     marginTop: 10,
+    borderBottomWidth: 1,
+    paddingBottm: 0,
   },
   buttonText: {
     fontSize: 25,
