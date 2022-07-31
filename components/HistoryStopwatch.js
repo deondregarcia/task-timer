@@ -3,13 +3,62 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const HistoryStopwatch = ({ item }) => {
+// group name FlatList component, not the main history stopwacth component
+const GroupList = ({ item, stopwatchKey }) => {
+  // console.log(item.item.key);
+
+  // get keys array and push this history stopwatches key to it
+  const addToGroup = async () => {
+    try {
+      let unparsedKey = await AsyncStorage.getItem(item.item.key);
+      let parsedKey = JSON.parse(unparsedKey);
+      parsedKey.keys.push(stopwatchKey);
+      getKey(parsedKey);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getKey = async (inputKey) => {
+    try {
+      const jsonValue = JSON.stringify({
+        groupName: inputKey.groupName,
+        keys: inputKey.keys,
+        key: inputKey.key,
+        description: inputKey.description,
+        avg: inputKey.avg,
+        lowest: inputKey.lowest,
+        highest: inputKey.highest,
+      });
+      await AsyncStorage.setItem(inputKey.key, jsonValue);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return (
+    <TouchableOpacity
+      onPress={addToGroup}
+      style={{
+        backgroundColor: "white",
+        width: 120,
+        height: 30,
+        justifyContent: "center",
+        borderRadius: 10,
+      }}
+    >
+      <Text style={{ textAlign: "center" }}>{item.item.groupName}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const HistoryStopwatch = ({ item, groupNames }) => {
   const [addGroupOverlayState, setAddGroupOverlayState] = useState(false);
+  const [stopwatchKey, setStopwatchKey] = useState(item.item.key);
 
   // convert seconds to HH:MM:SS format
   const convertTime = (time) => {
@@ -28,14 +77,17 @@ const HistoryStopwatch = ({ item }) => {
           <Text style={styles.text}>Goal: {item.item.goal} </Text>
         </View>
       ) : (
-        <View style={{ flexDirection: "row" }}>
-          <Text>Which Group?</Text>
-          <ScrollView style={{ marginLeft: 30 }}>
-            <Text>Test</Text>
-            <Text>Test</Text>
-            <Text>Test</Text>
-            <Text>Test</Text>
-          </ScrollView>
+        <View style={styles.contentContainer}>
+          <Text style={{ fontSize: 25, marginBottom: 10 }}>
+            Select the Group:
+          </Text>
+          <FlatList
+            data={groupNames}
+            renderItem={(item) => (
+              <GroupList item={item} stopwatchKey={stopwatchKey} />
+            )}
+            horizontal
+          />
         </View>
       )}
       <TouchableOpacity
@@ -64,7 +116,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderRadius: 20,
     paddingBottom: 10,
-    justifyContent: "center",
 
     // shadow props are different for ios and android
     // android
@@ -93,6 +144,10 @@ const styles = StyleSheet.create({
     top: 0,
     marginTop: 10,
     marginRight: 20,
+  },
+  contentContainer: {
+    alignItems: "center",
+    top: 30,
   },
 });
 

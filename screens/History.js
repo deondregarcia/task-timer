@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Button,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import HistoryStopwatch from "../components/HistoryStopwatch";
@@ -13,21 +14,25 @@ import { useIsFocused } from "@react-navigation/native";
 const History = () => {
   const [timerArray, setTimerArray] = useState([]);
   const isFocused = useIsFocused();
+  const [groupNames, setGroupNames] = useState([]);
 
-  // function for getting timers
+  // function for getting timers AND group names, despite func name
   const getStopwatches = async () => {
     let unfilteredKeys = [];
     let keyValues = [];
+    let filteredGroupKeys = [];
+    let filteredGroupValues = [];
     try {
       unfilteredKeys = await AsyncStorage.getAllKeys();
       // filter out non-timer key-value pairs (others are group pairs)
       let keys = unfilteredKeys.filter((key) => {
         if (key.includes("timer")) {
-          console.log(key);
           return key;
+        } else {
+          // get group names
+          filteredGroupKeys.push(key);
         }
       });
-      console.log(keys);
       let values = await AsyncStorage.multiGet(keys);
       for (let i = 0; i < values.length; i++) {
         keyValues.push(JSON.parse(values[i][1]));
@@ -35,6 +40,18 @@ const History = () => {
     } catch (error) {
       console.log(error);
     }
+
+    try {
+      // get group names from keys
+      let groupValues = await AsyncStorage.multiGet(filteredGroupKeys);
+      for (let i = 0; i < groupValues.length; i++) {
+        filteredGroupValues.push(JSON.parse(groupValues[i][1]));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // set group names
+    setGroupNames(filteredGroupValues);
 
     // console.log(timerArray);
     setTimerArray(keyValues);
@@ -54,6 +71,19 @@ const History = () => {
     // init stopwatch array
     getStopwatches();
   }, [isFocused]);
+
+  const logStorage = async () => {
+    try {
+      // let theKeys = await AsyncStorage.getAllKeys();
+      // console.log(theKeys);
+      let item = await AsyncStorage.getItem("group95");
+      let value = JSON.parse(item);
+      console.log(value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={clearHistory} style={styles.button}>
@@ -62,9 +92,12 @@ const History = () => {
       {timerArray && (
         <FlatList
           data={timerArray}
-          renderItem={(item) => <HistoryStopwatch item={item} />}
+          renderItem={(item) => (
+            <HistoryStopwatch item={item} groupNames={groupNames} />
+          )}
         />
       )}
+      <Button onPress={logStorage} title="log storage" />
     </View>
   );
 };
