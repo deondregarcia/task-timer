@@ -31,7 +31,7 @@ const CreateGroupOverlay = ({
     }
     setGroupArray([
       ...groupArray,
-      { groupName: groupName, description: description },
+      { groupName: groupName, description: description, key: key },
     ]);
     setGroupOverlayState(false);
     saveGroup();
