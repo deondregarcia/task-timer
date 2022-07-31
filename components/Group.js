@@ -11,7 +11,6 @@ const Group = ({ item }) => {
   const [average, setAverage] = useState(0);
 
   // use item.item.key to getItem and get rest of values
-  console.log("test item key: " + item.item.key);
   const getValues = async () => {
     try {
       let unparsedValues = await AsyncStorage.getItem(item.item.key);
@@ -35,10 +34,10 @@ const Group = ({ item }) => {
   return (
     <View style={styles.container}>
       <Text>{item.item.groupName}</Text>
-      <Text>{description}</Text>
-      <Text>{highest}</Text>
-      <Text>{lowest}</Text>
-      <Text>{average}</Text>
+      <Text>Description: {description}</Text>
+      <Text>Highest: {highest}</Text>
+      <Text>Lowest: {lowest}</Text>
+      <Text>Average: {average}</Text>
     </View>
   );
 };

@@ -9,22 +9,42 @@ import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // group name FlatList component, not the main history stopwacth component
-const GroupList = ({ item, stopwatchKey }) => {
-  // console.log(item.item.key);
-
+const GroupList = ({ item, stopwatchItem }) => {
   // get keys array and push this history stopwatches key to it
   const addToGroup = async () => {
     try {
       let unparsedKey = await AsyncStorage.getItem(item.item.key);
       let parsedKey = JSON.parse(unparsedKey);
-      parsedKey.keys.push(stopwatchKey);
-      getKey(parsedKey);
+
+      // for rest of try statement, calculate the average, highest, and lowest for parsedKey
+
+      // find timer sum of group's average, add stopwatch timer, find the new average
+      parsedKey.avg =
+        (parsedKey.avg * parsedKey.keys.length + stopwatchItem.timer) /
+        (parsedKey.keys.length + 1);
+
+      // add stopwatch key to group's "keys" array AFTER avg calculation, but before highest/lowest
+      parsedKey.keys.push(stopwatchItem.key);
+
+      // if statement to set highest or lowest
+      if (stopwatchItem.timer > parsedKey.highest) {
+        parsedKey.highest = stopwatchItem.timer;
+      }
+      if (stopwatchItem.timer < parsedKey.lowest) {
+        parsedKey.lowest = stopwatchItem.timer;
+      }
+      // if lowest is 0, meaning if this is the first timer, set new timer value as the lowest
+      if (parsedKey.lowest === 0) {
+        parsedKey.lowest = stopwatchItem.timer;
+      }
+
+      setKey(parsedKey);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getKey = async (inputKey) => {
+  const setKey = async (inputKey) => {
     try {
       const jsonValue = JSON.stringify({
         groupName: inputKey.groupName,
@@ -58,7 +78,7 @@ const GroupList = ({ item, stopwatchKey }) => {
 
 const HistoryStopwatch = ({ item, groupNames }) => {
   const [addGroupOverlayState, setAddGroupOverlayState] = useState(false);
-  const [stopwatchKey, setStopwatchKey] = useState(item.item.key);
+  const [stopwatchItem, setStopwatchKey] = useState(item.item);
 
   // convert seconds to HH:MM:SS format
   const convertTime = (time) => {
@@ -84,7 +104,7 @@ const HistoryStopwatch = ({ item, groupNames }) => {
           <FlatList
             data={groupNames}
             renderItem={(item) => (
-              <GroupList item={item} stopwatchKey={stopwatchKey} />
+              <GroupList item={item} stopwatchItem={stopwatchItem} />
             )}
             horizontal
           />
