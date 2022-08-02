@@ -91,24 +91,26 @@ const CreateGroupOverlay = ({
         <Text style={styles.header}>Create New Group</Text>
         <TextInput
           placeholder="Enter Name"
+          placeholderTextColor="gray"
           onChangeText={(text) => setGroupName(text)}
           style={styles.textInput}
         />
         <TextInput
           placeholder="Enter description"
+          placeholderTextColor="gray"
           onChangeText={(text) => setDescription(text)}
           style={[styles.textInput, { marginTop: 15 }]}
         />
 
         <TouchableOpacity onPress={handleCreate} style={styles.createButton}>
-          <Text>Create</Text>
+          <Text style={{ color: "#cecfd0" }}>Create</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => setGroupOverlayState(false)}
           style={styles.exitButton}
         >
-          <Text style={{ fontSize: 30 }}>X</Text>
+          <Text style={{ fontSize: 30, color: "#cecfd0" }}>X</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     paddingTop: 15,
     paddingBottom: 20,
-    backgroundColor: "white",
+    backgroundColor: "#1f1f1f",
     height: "auto",
     width: "100%",
   },
@@ -134,6 +136,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     fontSize: 25,
+    color: "#cecfd0",
   },
   textInput: {
     width: "90%",
@@ -141,6 +144,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: "#cecfd0",
+    color: "#cecfd0",
   },
   exitButton: {
     position: "absolute",
@@ -155,6 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 15,
     padding: 10,
+    borderColor: "#cecfd0",
   },
 });
 

@@ -119,7 +119,7 @@ const HistoryStopwatch = ({ item, groupNames }) => {
         style={styles.switchButton}
       >
         {!addGroupOverlayState ? (
-          <Text>Add to Group</Text>
+          <Text style={{ color: "#cecfd0" }}>Add to Group</Text>
         ) : (
           <Text style={{ fontSize: 30 }}>X</Text>
         )}
@@ -130,7 +130,7 @@ const HistoryStopwatch = ({ item, groupNames }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#E3E3E3",
+    backgroundColor: "#1f1f1f",
     height: 150,
     marginHorizontal: 10,
     marginTop: 15,
@@ -149,14 +149,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 30,
     marginTop: 5,
+    color: "#cecfd0",
   },
   timer: {
     alignSelf: "center",
     fontSize: 55,
+    color: "#cecfd0",
   },
   text: {
     alignSelf: "center",
     fontSize: 15,
+    color: "#cecfd0",
   },
   switchButton: {
     position: "absolute",

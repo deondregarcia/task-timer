@@ -5,38 +5,46 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
+  ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
 
 import CreateGroupOverlay from "../components/CreateGroupOverlay";
 import Group from "../components/Group";
+import { imageIndex } from "../assets/backgrounds/imageIndex.js";
 
-const Stats = () => {
+const Stats = ({ backgroundIndex }) => {
   const [groupOverlayState, setGroupOverlayState] = useState(false);
   const [groupArray, setGroupArray] = useState([]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        onPress={() => setGroupOverlayState(true)}
-        style={styles.button}
+      <ImageBackground
+        source={imageIndex[backgroundIndex]}
+        resizeMode="cover"
+        style={styles.image}
       >
-        <Text style={styles.buttonText}>Create New Group</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setGroupOverlayState(true)}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Create New Group</Text>
+        </TouchableOpacity>
 
-      {/* render  create group overlay  */}
-      {groupOverlayState && (
-        <CreateGroupOverlay
-          setGroupArray={setGroupArray}
-          setGroupOverlayState={setGroupOverlayState}
-          groupArray={groupArray}
+        {/* render  create group overlay  */}
+        {groupOverlayState && (
+          <CreateGroupOverlay
+            setGroupArray={setGroupArray}
+            setGroupOverlayState={setGroupOverlayState}
+            groupArray={groupArray}
+          />
+        )}
+
+        <FlatList
+          data={groupArray}
+          renderItem={(item) => <Group item={item} />}
         />
-      )}
-
-      <FlatList
-        data={groupArray}
-        renderItem={(item) => <Group item={item} />}
-      />
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -46,15 +54,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    alignSelf: "center",
-    borderRadius: 5,
     marginTop: 10,
-    borderBottomWidth: 1,
-    paddingBottm: 0,
+    width: 215,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    backgroundColor: "#1f1f1f",
+    shadowOffset: { height: 5 },
+    shadowRadius: 10,
+    shadowOpacity: 1,
+    alignSelf: "center",
   },
   buttonText: {
     fontSize: 25,
-    textAlign: "center",
+    color: "#cecfd0",
+  },
+  image: {
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
   },
 });
 

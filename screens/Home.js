@@ -7,7 +7,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stopwatch from "../components/Stopwatch";
 import CreateTimerOverlay from "../components/CreateTimerOverlay";
 
@@ -15,7 +15,7 @@ import CreateTimerOverlay from "../components/CreateTimerOverlay";
 import image2 from "../assets/backgrounds/image2.jpg";
 import { imageIndex } from "../assets/backgrounds/imageIndex.js";
 
-const Home = () => {
+const Home = ({ backgroundIndex }) => {
   const [timerNameArray, setTimerNameArray] = useState([]);
   const [timerOverlayState, setTimerOverlayState] = useState(false);
 
@@ -26,7 +26,11 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={image2} resizeMode="cover" style={styles.image}>
+      <ImageBackground
+        source={imageIndex[backgroundIndex]}
+        resizeMode="cover"
+        style={styles.image}
+      >
         {/* conditional rendering of CreateTimerOverlay component */}
         {timerOverlayState && (
           <CreateTimerOverlay
@@ -94,7 +98,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 25,
     color: "#cecfd0",
-    // color: "#ebad11",
   },
   image: {
     flex: 1,

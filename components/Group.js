@@ -15,7 +15,6 @@ const Group = ({ item }) => {
     try {
       let unparsedValues = await AsyncStorage.getItem(item.item.key);
       let values = JSON.parse(unparsedValues);
-      console.log(values);
 
       // set values
       setDescription(values.description);
@@ -27,28 +26,49 @@ const Group = ({ item }) => {
     }
   };
 
+  // convert seconds to HH:MM:SS format
+  const convertTime = (time) => {
+    var date = new Date(0);
+    date.setSeconds(time);
+    var timeString = date.toISOString().substr(11, 8);
+    return timeString;
+  };
+
   useEffect(() => {
     getValues();
   }, [isFocused]);
 
   return (
     <View style={styles.container}>
-      <Text>{item.item.groupName}</Text>
-      <Text>Description: {description}</Text>
-      <Text>Highest: {highest}</Text>
-      <Text>Lowest: {lowest}</Text>
-      <Text>Average: {average}</Text>
+      <View style={{ width: 280 }}>
+        <Text style={styles.header}>{item.item.groupName}</Text>
+        <Text style={styles.description}>Description:</Text>
+        <Text style={styles.description}>{description}</Text>
+      </View>
+      <View
+        style={{
+          borderLeftWidth: 2,
+          borderColor: "#cecfd0",
+          justifyContent: "center",
+          flex: 1,
+        }}
+      >
+        <Text style={styles.stats}>Highest: {convertTime(highest)}</Text>
+        <Text style={styles.stats}>Lowest: {convertTime(lowest)}</Text>
+        <Text style={styles.stats}>Average: {convertTime(average)}</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#E3E3E3",
-    height: 100,
+    backgroundColor: "#1f1f1f",
+    height: 150,
     marginHorizontal: 10,
     marginTop: 15,
     borderRadius: 20,
+    flexDirection: "row",
 
     // shadow props are different for ios and android
     // android
@@ -57,6 +77,21 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 5 },
     shadowRadius: 3,
     shadowOpacity: 0.4,
+  },
+  header: {
+    color: "#cecfd0",
+    textAlign: "center",
+    fontSize: 35,
+  },
+  description: {
+    color: "#cecfd0",
+    fontSize: 20,
+    marginLeft: 10,
+  },
+  stats: {
+    color: "#cecfd0",
+    alignSelf: "center",
+    marginVertical: 5,
   },
 });
 

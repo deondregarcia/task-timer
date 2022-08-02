@@ -5,13 +5,15 @@ import {
   FlatList,
   StyleSheet,
   Button,
+  ImageBackground,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import HistoryStopwatch from "../components/HistoryStopwatch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
+import { imageIndex } from "../assets/backgrounds/imageIndex.js";
 
-const History = () => {
+const History = ({ backgroundIndex }) => {
   const [timerArray, setTimerArray] = useState([]);
   const isFocused = useIsFocused();
   const [groupNames, setGroupNames] = useState([]);
@@ -72,32 +74,25 @@ const History = () => {
     getStopwatches();
   }, [isFocused]);
 
-  const logStorage = async () => {
-    try {
-      // let theKeys = await AsyncStorage.getAllKeys();
-      // console.log(theKeys);
-      let item = await AsyncStorage.getItem("group95");
-      let value = JSON.parse(item);
-      console.log(value);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={clearHistory} style={styles.button}>
-        <Text style={styles.buttonText}>Clear History</Text>
-      </TouchableOpacity>
-      {timerArray && (
-        <FlatList
-          data={timerArray}
-          renderItem={(item) => (
-            <HistoryStopwatch item={item} groupNames={groupNames} />
-          )}
-        />
-      )}
-      <Button onPress={logStorage} title="log storage" />
+      <ImageBackground
+        source={imageIndex[backgroundIndex]}
+        resizeMode="cover"
+        style={styles.image}
+      >
+        <TouchableOpacity onPress={clearHistory} style={styles.button}>
+          <Text style={styles.buttonText}>Clear History</Text>
+        </TouchableOpacity>
+        {timerArray && (
+          <FlatList
+            data={timerArray}
+            renderItem={(item) => (
+              <HistoryStopwatch item={item} groupNames={groupNames} />
+            )}
+          />
+        )}
+      </ImageBackground>
     </View>
   );
 };
@@ -107,15 +102,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    alignSelf: "center",
-    borderRadius: 5,
     marginTop: 10,
-    borderBottomWidth: 1,
-    paddingBottm: 0,
+    width: 150,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    backgroundColor: "#1f1f1f",
+    shadowOffset: { height: 5 },
+    shadowRadius: 10,
+    shadowOpacity: 1,
+    alignSelf: "center",
   },
   buttonText: {
     fontSize: 25,
+    color: "#cecfd0",
     textAlign: "center",
+  },
+  image: {
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
   },
 });
 

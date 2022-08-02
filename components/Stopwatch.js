@@ -136,7 +136,7 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
 
       {/* exit button */}
       <TouchableOpacity onPress={handleDelete} style={styles.exitButton}>
-        <Text>Delete</Text>
+        <Text style={{ color: "#cecfd0" }}>Delete</Text>
       </TouchableOpacity>
     </View>
   );
@@ -144,7 +144,7 @@ const Stopwatch = ({ item, setTimerNameArray }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f6bd60",
+    backgroundColor: "#1f1f1f",
     height: "auto",
     marginHorizontal: 10,
     marginTop: 15,
@@ -163,10 +163,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 30,
     marginTop: 5,
+    color: "#cecfd0",
   },
   timer: {
     alignSelf: "center",
     fontSize: 55,
+    color: "#cecfd0",
   },
   buttonView: {
     marginTop: 10,
@@ -190,6 +192,7 @@ const styles = StyleSheet.create({
   text: {
     alignSelf: "center",
     fontSize: 15,
+    color: "#cecfd0",
   },
   exitButton: {
     position: "absolute",
