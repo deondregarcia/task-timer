@@ -69,6 +69,7 @@ const GroupList = ({ item, stopwatchItem }) => {
         height: 30,
         justifyContent: "center",
         borderRadius: 10,
+        marginHorizontal: 5,
       }}
     >
       <Text style={{ textAlign: "center" }}>{item.item.groupName}</Text>
@@ -98,7 +99,7 @@ const HistoryStopwatch = ({ item, groupNames }) => {
         </View>
       ) : (
         <View style={styles.contentContainer}>
-          <Text style={{ fontSize: 25, marginBottom: 10 }}>
+          <Text style={{ fontSize: 25, marginBottom: 10, color: "#cecfd0" }}>
             Select the Group:
           </Text>
           <FlatList
@@ -121,7 +122,7 @@ const HistoryStopwatch = ({ item, groupNames }) => {
         {!addGroupOverlayState ? (
           <Text style={{ color: "#cecfd0" }}>Add to Group</Text>
         ) : (
-          <Text style={{ fontSize: 30 }}>X</Text>
+          <Text style={{ fontSize: 30, color: "#cecfd0" }}>X</Text>
         )}
       </TouchableOpacity>
     </View>
