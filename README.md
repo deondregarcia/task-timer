@@ -1,2 +1,2 @@
 # task-timer
-React Native app to time various tasks you do and group them for comparison.
+React Native mobile app to provide analytics on the length of time it takes you to complete certain tasks.
